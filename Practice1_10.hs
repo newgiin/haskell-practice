@@ -4,10 +4,38 @@ myLast (x:xs) = if xs == [] then x else myLast xs
 myButLast (x:xs) = if xs == [] then [] else x : myButLast xs
 
 elementAtHelper (x:xs) k i = if i == k then x else elementAtHelper xs k (i + 1)
-elementAt lst k = elementAtHelper lst k 1
+elementAt xs k = elementAtHelper xs k 1
 
 myLength [] = 0
 myLength (x:xs) = 1 + myLength xs
 
-myPrepend lst x = x : lst -- before I learned of flip :)
-myReverse lst = foldl myPrepend [] lst
+myPrepend xs x = x : xs -- before I learned of flip :)
+myReverse xs = foldl myPrepend [] xs
+
+isPalindrome xs = xs == (reverse xs)
+-- # 7
+data NestedList a = Elem a | List [NestedList a]
+
+flatten :: NestedList a -> [a]
+flatten (Elem x) = [x]
+flatten (List []) = []
+flatten (List (x:xs)) = flatten x ++ flatten (List xs)
+
+-- # 8
+headEq :: (Eq a) => a -> [a] -> [a]
+headEq x [] = [x]
+headEq x acc = if x /= (head acc) then [x] ++ acc else acc
+
+compress :: (Eq a) => [a] -> [a]
+compress = foldr headEq []
+
+-- # 9
+headEq' :: (Eq a) => a -> [[a]] -> [[a]]
+headEq' x [] = [[x]]
+headEq' x acc = 
+    if x /= (head (head acc)) 
+        then [[x]] ++ acc 
+        else [(head acc) ++ [x]] ++ tail acc
+
+pack :: (Eq a) => [a] -> [[a]]
+pack = foldr headEq' []
