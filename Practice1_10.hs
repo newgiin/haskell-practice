@@ -3,8 +3,8 @@ l = [1, 2, 3, 4, 5, 6, 7]
 myLast (x:xs) = if xs == [] then x else myLast xs
 myButLast (x:xs) = if xs == [] then [] else x : myButLast xs
 
-elementAtHelper (x:xs) k i = if i == k then x else elementAtHelper xs k (i + 1)
-elementAt xs k = elementAtHelper xs k 1
+eentAtHelper (x:xs) k i = if i == k then x else eentAtHelper xs k (i + 1)
+eentAt xs k = eentAtHelper xs k 1
 
 myLength [] = 0
 myLength (x:xs) = 1 + myLength xs
@@ -31,11 +31,22 @@ compress = foldr headEq []
 
 -- # 9
 headEq' :: (Eq a) => a -> [[a]] -> [[a]]
-headEq' x [] = [[x]]
-headEq' x acc = 
-    if x /= (head (head acc)) 
-        then [[x]] ++ acc 
-        else [(head acc) ++ [x]] ++ tail acc
+headEq' e [] = [[e]]
+headEq' e (x:xs) = 
+    if e /= (head x) 
+        then [[e]] ++ (x:xs) 
+        else [x ++ [e]] ++ xs
 
 pack :: (Eq a) => [a] -> [[a]]
 pack = foldr headEq' []
+
+-- # 10
+headEq'' :: Eq a => a -> [(Int, a)] -> [(Int, a)] 
+headEq'' e [] = [(1, e)]
+headEq'' e (x:xs) = 
+    if e /= snd x
+        then [(1, e)] ++ (x:xs)
+        else [(1 + fst x, e)] ++ xs
+
+encode :: Eq a => [a] -> [(Int, a)]
+encode = foldr headEq'' [] 
