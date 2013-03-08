@@ -1,3 +1,6 @@
+module Practice11_20
+    where
+
 import Data.List
 
 data Stuff a = Multiple Int a | Single a deriving Show
@@ -34,7 +37,7 @@ split xs n | n >= 0    = splitHelper n [] xs
 
 -- # 18
 slice :: [a] -> Int -> Int -> [a]
-slice xs a z = fst (split (snd (split xs (a - 1))) (z - a + 1)) 
+slice xs a b = fst (split (snd (split xs (a - 1))) (b - a + 1)) 
 
 -- # 19
 rotate :: [a] -> Int -> [a]
@@ -45,5 +48,3 @@ removeAt :: Int -> [a] -> (a, [a])
 removeAt n (x:xs) | n == 1    = (x, xs)
                   | otherwise = (e, x:ys) 
                       where (e, ys) = removeAt (n - 1) xs
-
-
