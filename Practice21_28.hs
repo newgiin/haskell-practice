@@ -14,4 +14,12 @@ range a b |  a == b   = [b]
         -- where (e, ys) = removeAt p xs 
         -- where p <- randomRIO (1::Int, length xs)
         
-rndTest = p + 1 where p <- randomRIO (1::Int, 6)
+-- rndTest = p + 1 where p <- randomRIO (1::Int, 6)
+
+-- #26
+combinations :: Int -> [a] -> [[a]]
+combinations 0 _ = [[]]
+combinations 1 [x] = [[x]]
+combinations n [x] = []
+combinations n (x:xs) = 
+    (map ((:) x) (combinations (n-1) xs)) ++ combinations n xs
