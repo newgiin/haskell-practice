@@ -5,6 +5,7 @@ import Practice11_20
 import System.Random
 import Control.Monad (replicateM)
 import Data.List
+import qualified Data.Map as Map
 
 insertAt :: a -> [a] -> Int -> [a]
 insertAt e xs n = ys ++ [e] ++ zs where (ys, zs) = Practice11_20.split xs (n-1)
@@ -43,4 +44,16 @@ combinations n (x:xs) =
 myGroup :: Eq a => [Int] -> [a] -> [[[a]]]
 myGroup (c:[]) xs = [[xs]]
 myGroup (c:cs) xs =
-    concat (map (\ys -> map (\zs -> ys:zs) (Main.myGroup cs (xs\\ys)) ) (combinations c xs))
+    concat (map (\ys -> map (\zs -> ys:zs) (myGroup cs (xs\\ys)) ) (combinations c xs))
+
+-- #28a
+lenCompare xs ys | (length xs) < (length ys) = LT
+    | (length xs) > (length ys) = GT
+    | otherwise                 = EQ
+lsort :: [[a]] -> [[a]]
+lsort = sortBy lenCompare
+
+-- #28b
+f m xs = Map.insertWith (++) (length xs) [xs] m
+lfsort :: [[a]] -> [[a]]
+lfsort xs = concat (lsort (Map.elems (foldl f Map.empty xs)))
