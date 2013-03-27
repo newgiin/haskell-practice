@@ -15,23 +15,32 @@ range a b |  a == b   = [b]
           | otherwise = a : range (a+1) b
 
 {-
-- I just looked at the solution for this to learn how to use monads.
+- #23 For problems involving Random, I looked at the solution beforehand
+- to learn the use of monads.
 -}
 rndSelect :: [a] -> Int -> IO [a]
 rndSelect [] _ = return []
+rndSelect _ 0 = return []
 rndSelect l n
     | n < 0 = error "N must be greater than zero."
-    | otherwise = do pos <- replicateM n $
-                               randomRIO (0::Int, (length l)-1)
-                     return [l!!p | p <- pos]
--- rndSelect xs n 
-    -- | n == 0    = []
-    -- | otherwise = e : rndSelect (n - 1) ys 
-        -- where (e, ys) = removeAt p xs 
-        -- where p <- randomRIO (1::Int, length xs)
-        
--- rndTest = p + 1 where p <- randomRIO (1::Int, 6)
+    | otherwise = do 
+        p <- randomRIO (1, (length l))
+        let (e, rest) = removeAt p l
+        rest' <- rndSelect rest (n-1)
+        return $ e:rest'
 
+-- #24
+diffSelect :: Int -> Int -> IO [Int]
+diffSelect n m
+    | n < 0 = error "N must be greater than zero."
+    | otherwise = do nums <- replicateM n $
+                               randomRIO (0::Int, m)
+                     return nums
+
+-- # 25
+rndPermu :: [a] -> IO [a]
+rndPermu xs = rndSelect xs (length xs)
+             
 -- #26
 combinations :: Int -> [a] -> [[a]]
 combinations 0 _ = [[]]

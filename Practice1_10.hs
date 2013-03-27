@@ -3,8 +3,8 @@ l = [1, 2, 3, 4, 5, 6, 7]
 myLast (x:xs) = if xs == [] then x else myLast xs
 myButLast (x:xs) = if xs == [] then [] else x : myButLast xs
 
-eentAtHelper (x:xs) k i = if i == k then x else eentAtHelper xs k (i + 1)
-eentAt xs k = eentAtHelper xs k 1
+elementAt' (x:xs) k i = if i == k then x else elementAt' xs k (i + 1)
+elementAt xs k = elementAt' xs k 1
 
 myLength [] = 0
 myLength (x:xs) = 1 + myLength xs

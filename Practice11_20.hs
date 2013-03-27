@@ -18,22 +18,22 @@ dupli = concatMap (\x -> replicate 2 x)
 repli xs n = concatMap (\x -> replicate n x) xs
 
 -- #16
-dropEveryHelper [] _ _ = []
-dropEveryHelper (x:xs) n i 
-    | i == n    = dropEveryHelper xs n 1
-    | otherwise = dropEveryHelper xs n (i + 1)
+dropEvery' [] _ _ = []
+dropEvery' (x:xs) n i 
+    | i == n    = dropEvery' xs n 1
+    | otherwise = dropEvery' xs n (i + 1)
     
-dropEvery xs n = dropEveryHelper xs n 1
+dropEvery xs n = dropEvery' xs n 1
 
 -- # 17
-splitHelper :: Int -> [a] -> [a] -> ([a], [a])
-splitHelper _ acc [] = (acc, [])
-splitHelper 0 acc l@(x:xs) = (acc, l)
-splitHelper n acc l@(x:xs) =  splitHelper (n - 1) (acc ++ [x]) xs 
+split' :: Int -> [a] -> [a] -> ([a], [a])
+split' _ acc [] = (acc, [])
+split' 0 acc l@(x:xs) = (acc, l)
+split' n acc l@(x:xs) =  split' (n - 1) (acc ++ [x]) xs 
         
 split :: [a] -> Int -> ([a], [a])
-split xs n | n >= 0    = splitHelper n [] xs
-           | otherwise = splitHelper ((length xs) + n) [] xs 
+split xs n | n >= 0    = split' n [] xs
+           | otherwise = split' ((length xs) + n) [] xs 
 
 -- # 18
 slice :: [a] -> Int -> Int -> [a]
